@@ -4,7 +4,7 @@ app = flask.Flask(__name__)
 
 @app.route("/")
 def home():
-    return flask.render_template("home.html")\
+    return flask.render_template("home.html")
 
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
