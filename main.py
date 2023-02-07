@@ -1,4 +1,5 @@
 import flask
+import pandas as pd
 
 app = flask.Flask(__name__)
 
@@ -8,7 +9,10 @@ def home():
 
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
-    temperature = 23
+    filename = "data/TG_STAID" + str(station).zfill(6) + ".txt" # zfill nam naredi 000066
+    df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"]) # Preskočimo prvih 20 vrstic ker je se vsi fili začne na 21 vrstic
+    temperature = df.loc[df["    DATE"] == date]['   TG'].squeeze() / 10
+
     return {"station": station,
             "date": date,
             "temperature": temperature}
